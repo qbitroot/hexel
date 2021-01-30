@@ -17,7 +17,7 @@ parser.add_argument('-o', '--outf', default='all', choices=dtypes+('all',), help
 parser.add_argument('-s', '--swap', help='Swap endianness', action='store_true')
 parser.add_argument('-i', '--input', help='Input data')
 parser.add_argument('-f', '--file', help='Input file (if no input data)')
-parser.add_argument('-p', '--pipe', default=True, help='Take input from stdin/pipe', action='store_true')
+parser.add_argument('-p', '--pipe', default=True, help='Take input from stdin pipe', action='store_true')
 parser.add_argument('-n', help='Strip new line of output', action='store_true')
 parser.add_argument('-d', '--debug', help='Debug mode', action='store_true')
 
@@ -45,14 +45,14 @@ def narr(d):
     return ','.join(['0x{:02x}'.format(i) for i in d])
 
 if args.input:
-    inp = args.input
+    inp = args.input.encode()
 elif args.file:
-    inp = open(args.file).read()
+    inp = open(args.file, 'rb').read()
 elif args.pipe:
-    inp = input()
+    inp = sys.stdin.buffer.read()
 
 if args.type == 'raw':
-    data = list(inp.encode())
+    data = list(inp)
 elif args.type == 'hex':
     data = list(map(int, bytearray.fromhex(inp)))
 elif args.type == 'c':
