@@ -54,11 +54,11 @@ elif args.pipe:
 if args.type == 'raw':
     data = list(inp)
 elif args.type == 'hex':
-    data = list(map(int, bytearray.fromhex(inp)))
+    data = list(map(int, bytearray.fromhex(keep_hex(inp.decode()))))
 elif args.type == 'c':
-    data = list(map(int, bytearray.fromhex(keep_hex(inp))))
+    data = list(map(int, bytearray.fromhex(keep_hex(inp.decode()))))
 elif args.type == 'arr':
-    data = list(map(int, bytearray.fromhex(keep_hex(inp.replace('0x','')))))
+    data = list(map(int, bytearray.fromhex(keep_hex(inp.decode().replace('0x','')))))
 
 if args.debug:
     print(data)
