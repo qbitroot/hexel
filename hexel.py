@@ -3,17 +3,18 @@ import sys
 import string
 import argparse
 
-types_inp = '''Available types(name, example):
-  hex   c0ffee
-  raw   \xc0\xff\xee
-  c     \\xc0\\xff\\xee
-  arr   0xc0,0xff,0xee'''
+#types_desc = '''Available types(name, example):
+#  hex   315fc0ffee
+#  raw   \x31\x5f\xc0\xff\xee
+#  c     1_\\xc0\\xff\\xee
+#  ch    \\x31\\x5f\\xc0\\xff\\xee
+#  arr   0x31,0x5f,0xc0,0xff,0xee'''
 
 dtypes = ('raw', 'hex', 'c', 'arr')
 
-parser = argparse.ArgumentParser(description='Convert hex', epilog=types_inp)
+parser = argparse.ArgumentParser(description='Convert hex')
 parser.add_argument('-t', '--type', default='raw', choices=dtypes, help='Type of input')
-parser.add_argument('-o', '--outf', default='all', choices=dtypes+('all',), help='Format of output')
+parser.add_argument('-o', '--outf', default='all', choices=dtypes+('all','ch'), help='Format of output')
 parser.add_argument('-s', '--swap', help='Swap endianness', action='store_true')
 parser.add_argument('-i', '--input', help='Input data')
 parser.add_argument('-f', '--file', help='Input file (if no input data)')
@@ -44,6 +45,9 @@ def ncstr(d):
 def narr(d):
     return ','.join(['0x{:02x}'.format(i) for i in d])
 
+def nch(d):
+    return ''.join(['\\x{:02x}'.format(i) for i in d])
+
 if args.input:
     inp = args.input.encode()
 elif args.file:
@@ -72,15 +76,18 @@ else:
     e = '\n'
 
 if args.outf == 'all':
-    print(f'Raw: {nraw(data)}')
-    print(f'Hex: {nhex(data)}')
-    print(f'C str: "{ncstr(data)}"')
-    print(f'Array: {narr(data)}')
+    print(f'[raw]\tRaw: {nraw(data)}')
+    print(f'[hex]\tHex: {nhex(data)}')
+    print(f'[c]\tC str: "{ncstr(data)}"')
+    print(f'[ch]\tC hex str: "{nch(data)}"')
+    print(f'[arr]\tArray: {narr(data)}')
 elif args.outf == 'raw':
     print(nraw(data), end=e)
 elif args.outf == 'hex':
     print(nhex(data), end=e)
 elif args.outf == 'c':
     print(f'"{ncstr(data)}"', end=e)
+elif args.outf == 'ch':
+    print(f'"{nch(data)}"', end=e)
 elif args.outf == 'arr':
     print(narr(data), end=e)
