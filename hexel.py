@@ -67,11 +67,11 @@ elif args.pipe:
 if args.infmt == 'raw':
     data = list(inp)
 elif args.infmt == 'hex':
-    data = list(map(int, bytearray.fromhex(keep_hex(inp.decode()))))
+    data = list(memoryview(bytearray.fromhex(keep_hex(inp.decode()))))
 elif args.infmt == 'c':
-    data = list(map(int, bytearray.fromhex(keep_hex(inp.decode()))))
+    data = list(memoryview(bytearray.fromhex(keep_hex(inp.decode()))))
 elif args.infmt == 'arr':
-    data = list(map(int, bytearray.fromhex(keep_hex(inp.decode().replace('0x','')))))
+    data = list(memoryview(bytearray.fromhex(keep_hex(inp.decode().replace('0x','')))))
 
 if args.debug:
     print(data)
