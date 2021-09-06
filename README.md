@@ -36,7 +36,7 @@ optional arguments:
 "\x31\xc0\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff\x48\xf7\xdb\x53\x54\x5f\x99\x52\x57\x54\x5e\xb0\x3b\x0f\x05"
 ```
 
-**Example 3**: Convert string to little-endian integer (userful for writing shellcode): `python3 hexel.py -i bash -o hex -s`. Sample output:
+**Example 3**: Convert string to little-endian integer (useful for writing shellcode): `python3 hexel.py -i bash -o hex -s`. Sample output:
 ```
 68736162
 ```
